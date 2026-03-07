@@ -10,21 +10,46 @@
       rel="stylesheet"
       type="text/css" />
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer" />
   </head>
   <body>
-    <section>
-      <fieldset
-        class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4">
-        <legend class="fieldset-legend">Login</legend>
+    <section class="w-[600px] mx-auto text-center shadow-2xl p-5">
+      <div class="login-text-content">
+        <img class="mx-auto" src="./assets/github-logo.png" alt="github logo" />
+        <h2>GitHub Issues Tracker</h2>
+        <p>Sign in to manage your issues</p>
+      </div>
+      <fieldset class="fieldset rounded-box w-lg p-4 mx-auto">
+        <label class="label font-semibold text-lg text-black">Username</label>
+        <input type="email" class="input w-full" placeholder="Enter Username" />
 
-        <label class="label">Email</label>
-        <input type="email" class="input" placeholder="Email" />
+        <label class="label font-semibold text-lg text-black">Password</label>
+        <input
+          type="password"
+          class="input w-full"
+          placeholder="Enter Password" />
 
-        <label class="label">Password</label>
-        <input type="password" class="input" placeholder="Password" />
-
-        <button class="btn btn-neutral mt-4">Login</button>
+        <button class="btn btn-primary mt-4">Sign In</button>
       </fieldset>
+      <div class="credentials">
+        <div class="flex justify-between items-center text-gray-500 py-5">
+          <hr class="w-[200px]" />
+          <p>or</p>
+          <hr class="w-[200px]" />
+        </div>
+
+        <p>Demo Credentials:</p>
+        <div class="bg-gray-100 p-3 rounded-lg mt-3">
+          <p>Username: admin</p>
+          <p>Password: admin123</p>
+        </div>
+      </div>
     </section>
   </body>
 </html>
