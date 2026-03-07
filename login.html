@@ -19,35 +19,40 @@
       referrerpolicy="no-referrer" />
   </head>
   <body>
-    <section class="w-[600px] mx-auto text-center shadow-2xl p-5">
+    <section
+      class="w-[550px] mx-auto text-center shadow-lg p-5 mt-30 rounded-lg">
       <div class="login-text-content">
         <img class="mx-auto" src="./assets/github-logo.png" alt="github logo" />
-        <h2>GitHub Issues Tracker</h2>
-        <p>Sign in to manage your issues</p>
+        <h2 class="text-4xl font-semibold">GitHub Issues Tracker</h2>
+        <p class="text-xl font-normal text-gray-500">
+          Sign in to manage your issues
+        </p>
       </div>
       <fieldset class="fieldset rounded-box w-lg p-4 mx-auto">
         <label class="label font-semibold text-lg text-black">Username</label>
         <input type="email" class="input w-full" placeholder="Enter Username" />
+        <p class="text-purple-600 text-left">Default: admin</p>
 
         <label class="label font-semibold text-lg text-black">Password</label>
         <input
           type="password"
           class="input w-full"
           placeholder="Enter Password" />
+        <p class="text-purple-600 text-left">Default: admin123</p>
 
         <button class="btn btn-primary mt-4">Sign In</button>
       </fieldset>
       <div class="credentials">
-        <div class="flex justify-between items-center text-gray-500 py-5">
+        <div class="flex justify-evenly items-center text-gray-300 py-5">
           <hr class="w-[200px]" />
-          <p>or</p>
+          <p class="text-gray-700">OR</p>
           <hr class="w-[200px]" />
         </div>
 
-        <p>Demo Credentials:</p>
-        <div class="bg-gray-100 p-3 rounded-lg mt-3">
-          <p>Username: admin</p>
-          <p>Password: admin123</p>
+        <p class="text-gray-500">Demo Credentials:</p>
+        <div class="bg-gray-50 p-3 rounded-lg mt-3">
+          <p><span class="font-bold">Username:</span> admin</p>
+          <p><span class="font-bold">Password:</span> admin123</p>
         </div>
       </div>
     </section>
