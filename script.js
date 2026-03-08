@@ -14,22 +14,30 @@ loadIssues();
 
 // Display Function
 function displayIssue(issue) {
-  console.log(issue);
   const issueCard = document.createElement("div");
   issueCard.className = "card bg-base-100 shadow-lg";
+
+  const labelsHTML = issue.labels
+    .map(
+      (label) => `
+    <div class="badge badge-outline ${labelClass(label)}">
+    <i class="fa-solid ${labelIcon(label)}"></i>
+    ${label}</div>
+    `,
+    )
+    .join("");
   issueCard.innerHTML = `
   <div class="card-body">
             <header class="flex justify-between">
               <img src="${issue.status === "open" ? "./assets/Open-Status.png" : "./assets/Closed-Status.png"}" alt="" />
-              <div class="badge badge-soft badge-warning">${issue.priority}</div>
+              <div class="badge badge-soft ${issue.priority === "medium" ? "badge-error uppercase font-semibold" : issue.priority === "low" ? "badge-success font-semibold uppercase" : "badge-neutral font-semibold uppercase"} ">${issue.priority}</div>
             </header>
             <h2 class="card-title">${issue.title}</h2>
-            <p>
+            <p class="truncate">
               ${issue.description}
             </p>
             <div class="flex gap-5">
-              <div class="badge badge-secondary badge-outline">${issue.labels[0]}</div>
-              <div class="badge badge-warning badge-outline">${issue.labels[1]}</div>
+              ${labelsHTML}
             </div>
             <hr class="text-gray-300" />
             <div class="author-text">
@@ -39,4 +47,25 @@ function displayIssue(issue) {
           </div>
   `;
   issueContainer.appendChild(issueCard);
+}
+function labelIcon(label) {
+  const iconClasses = {
+    bug: "fa-bug",
+    enhancement: "fa-star",
+    documentation: "fa-sun",
+    "help wanted": "fa-handshake-angle",
+    "good first issue": "fa-circle-plus",
+  };
+  return iconClasses[label];
+}
+
+function labelClass(label) {
+  const classes = {
+    bug: " badge-error font-semibold uppercase",
+    enhancement: "badge-success font-semibold uppercase",
+    documentation: "badge-warning font-semibold uppercase",
+    "help wanted": "badge-info font-semibold uppercase",
+    "good first issue": "badge-secondary font-semibold uppercase",
+  };
+  return classes[label] || "badge-neutral font-semibold uppercase";
 }
