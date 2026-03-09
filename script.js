@@ -1,16 +1,100 @@
 const allIssue = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
 const issueContainer = document.getElementById("issueContainer");
-console.log(issueContainer);
+const loadingSpinner = document.getElementById("loadingSpinner");
+let allIssuesData = [];
+// Buttons
+const allButton = document.getElementById("allBtn");
+const openButton = document.getElementById("openBtn");
+const closedButton = document.getElementById("closedBtn");
+const buttonContainer = document.getElementById("btnContainer");
 
+// Status
+const allStatus = document.getElementById("allStatus");
+const openStatus = document.getElementById("openStatus");
+const closedStatus = document.getElementById("closedStatus");
+
+// Button Toggle
+// Load Issues
 async function loadIssues() {
+  loadingSpinner.classList.remove("hidden");
   const res = await fetch(allIssue);
   const data = await res.json();
+  allIssuesData = data.data;
+
+  loadingSpinner.classList.add("hidden");
+  specificDisplayIssue(allStatus);
   data.data.forEach((issue) => {
-    // console.log(issue);
     displayIssue(issue);
   });
 }
 loadIssues();
+
+// Load Category
+// async function loadCategories() {
+//   const res = await fetch(allIssue);
+//   const data = await res.json();
+//   data.data.forEach((category) => {
+//     const categories = category.status;
+//     console.log(categories);
+//   });
+// }
+// loadCategories();
+// Category
+
+//Count Status
+
+function statusCount() {
+  const total = allIssuesData.length;
+
+  const open = allIssuesData.filter((i) => i.status === "open").length;
+  const closed = allIssuesData.filter((i) => i.status === "closed").length;
+
+  document.querySelector("#allStatus").textContent = total;
+  document.querySelector("#allStatus").textContent = open;
+  document.querySelector("#allStatus").textContent = closed;
+}
+
+function specificDisplayIssue(filter) {
+  issueContainer.innerHTML = "";
+  // const filtered = allIssuesData.filter((issue) => {
+  //   if (filter === "open") return issue.status === "open";
+  //   if (filter === "closed") return issue.status === "closed";
+  // });
+  const filtered =
+    filter === allStatus
+      ? allIssuesData
+      : allIssuesData.filter((issue) => issue.status === filter);
+  allStatus.textContent = filtered.length;
+  filtered.forEach((issue) => displayIssue(issue));
+}
+specificDisplayIssue();
+
+// Buttons
+// allButton.addEventListener("click", () => specificDisplayIssue(loadIssues()));
+allButton.addEventListener("click", function () {
+  closedStatus.classList.remove("hidden");
+  openStatus.classList.remove("hidden");
+  allButton.classList.add("btn-primary");
+  openButton.classList.remove("btn-primary");
+  closedButton.classList.remove("btn-primary");
+  specificDisplayIssue(loadIssues());
+});
+openButton.addEventListener("click", function () {
+  closedStatus.classList.add("hidden");
+  openStatus.classList.remove("hidden");
+  allButton.classList.remove("btn-primary");
+  openButton.classList.add("btn-primary");
+  closedButton.classList.remove("btn-primary");
+  specificDisplayIssue("open");
+});
+closedButton.addEventListener("click", function () {
+  openStatus.classList.add("hidden");
+  closedStatus.classList.remove("hidden");
+  allButton.classList.remove("btn-primary");
+  openButton.classList.remove("btn-primary");
+  closedButton.classList.add("btn-primary");
+  specificDisplayIssue("closed");
+});
 
 // Display Function
 function displayIssue(issue) {
@@ -51,6 +135,7 @@ function displayIssue(issue) {
   `;
   issueContainer.appendChild(issueCard);
 }
+// Icon
 function labelIcon(label) {
   const iconClasses = {
     bug: "fa-bug",
@@ -61,7 +146,7 @@ function labelIcon(label) {
   };
   return iconClasses[label];
 }
-
+// Label
 function labelClass(label) {
   const classes = {
     bug: "px-[2px] badge-error font-semibold uppercase",

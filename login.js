@@ -9,6 +9,9 @@ signInBtn.addEventListener("click", function () {
   if (name == "admin" && pass == "admin123") {
     alert("Sign In Success");
     // window.location.replace("./home.html");
+    sessionStorage.setItem("isLoggedIn", "true");
+    sessionStorage.setItem("username", name);
+
     window.location.assign("./home.html");
   } else {
     alert("Sign In Failed!");
