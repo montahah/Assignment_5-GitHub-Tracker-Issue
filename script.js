@@ -8,12 +8,27 @@ const openButton = document.getElementById("openBtn");
 const closedButton = document.getElementById("closedBtn");
 const buttonContainer = document.getElementById("btnContainer");
 
+// Modal
+const issueModal = document.getElementById("issue-details-modal");
+
+async function issueModalOpen(issueId) {
+  console.log(issueId, "issueId");
+
+  const res = await fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issue/${issueId}`,
+  );
+  const data = await res.json();
+  const issueDetails = data.data;
+  console.log(issueDetails, "data");
+
+  issueDetailsModal.showModal();
+}
+
 // Status
 const allStatus = document.getElementById("allStatus");
 const openStatus = document.getElementById("openStatus");
 const closedStatus = document.getElementById("closedStatus");
 
-// Button Toggle
 // Load Issues
 async function loadIssues() {
   loadingSpinner.classList.remove("hidden");
@@ -114,12 +129,12 @@ function displayIssue(issue) {
     .join("");
 
   issueCard.innerHTML = `
-  <div class="card-body">
+  <div class="card-body" >
             <header class="flex justify-between">
               <img src="${issue.status === "open" ? "./assets/Open-Status.png" : "./assets/Closed-Status.png"}" alt="" />
               <div class="badge badge-soft ${issue.priority === "medium" ? "badge-warning uppercase font-semibold" : issue.priority === "low" ? "badge-neutral font-semibold uppercase" : "badge-error font-semibold uppercase"} ">${issue.priority}</div>
             </header>
-            <h2 class="card-title">${issue.title}</h2>
+            <h2 class="card-title " onclick="issueModalOpen(${issue.id})">${issue.title}</h2>
             <p class="line-clamp-2 text-gray-500">
               ${issue.description}
             </p>
@@ -158,3 +173,34 @@ function labelClass(label) {
   };
   return classes[label] || "badge-neutral font-semibold uppercase";
 }
+
+const searchInput = document.querySelector("#search-input");
+
+searchInput.addEventListener("input", async function () {
+  const query = searchInput.value.trim();
+
+  if (query === "") {
+    specificDisplayIssue("all");
+    return;
+  }
+
+  const res = await fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issues?search=${query}`,
+  );
+  const data = await res.json();
+
+  issueContainer.innerHTML = "";
+  issueCount.textContent = data.total;
+
+  if (data.total === 0) {
+    issueContainer.innerHTML = `
+      <div class="flex flex-col items-center justify-center py-20 text-gray-400">
+        <i class="fa-solid fa-magnifying-glass text-4xl mb-3"></i>
+        <p class="text-lg font-medium">No issues found for "<span class="text-gray-600">${query}</span>"</p>
+      </div>
+    `;
+    return;
+  }
+
+  data.data.forEach((issue) => displayIssue(issue));
+});
