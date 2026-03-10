@@ -21,12 +21,13 @@
   <body class="bg-gray-50">
     <header>
       <nav>
-        <div class="flex justify-evenly px-20 py-5 bg-base-100 shadow-sm">
-          <div class="flex-1">
-            <a class="btn btn-ghost text-xl">
-              <img class="w-8" src="./assets/github-logo.png" alt="" />
-              <h2 class="text-2xl max-sm:hidden">GitHub Issues Tracker</h2>
-            </a>
+        <div
+          class="flex justify-between gap-2 px-20 py-5 bg-base-100 shadow-sm">
+          <div class="flex items-center gap-3">
+            <img class="w-10 md:w-10" src="./assets/github-logo.png" alt="" />
+            <h2 class="text-2xl max-sm:hidden font-medium">
+              GitHub Issues Tracker
+            </h2>
           </div>
           <div class="flex gap-2">
             <input
@@ -116,9 +117,7 @@
       <!-- Modal -->
       <section class="container mx-auto">
         <!-- Open the modal using ID.showModal() method -->
-        <button class="btn" onclick="issueDetailsModal.showModal()">
-          open modal
-        </button>
+        <button onclick="issueDetailsModal.showModal()"></button>
         <!-- Product details modal -->
         <dialog id="issueDetailsModal" class="modal p-5">
           <div class="modal-box">

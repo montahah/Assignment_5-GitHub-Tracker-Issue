@@ -61,6 +61,7 @@ async function issueModalOpen(issueId) {
 
   if (issueDetails.status === "open") {
     modalStatus.classList.add("btn-success");
+
     modalStatus.textContent = "Opened";
     modalOpen.textContent = "Opened";
   } else {
@@ -72,6 +73,35 @@ async function issueModalOpen(issueId) {
 
   issueDetailsModal.showModal();
 }
+
+// Search
+const searchInput = document.getElementById("search-input");
+
+searchInput.addEventListener("click", async () => {
+  const query = searchInput.value.trim();
+
+  if (query === "") {
+    displayIssue("all");
+    return;
+  }
+
+  const res = await fetch(
+    `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${query}`,
+  );
+  const data = await res.json();
+  console.log(data);
+
+  issueContainer.innerHTML = "";
+  allStatus.textContent = data.total || 0;
+
+  if (!data.data || data.total.length === 0) {
+    allStatus.textContent = 0;
+    issueContainer.innerHTML = `<p>No issues found for "${query}"</p>`;
+    return;
+  }
+
+  data.data.forEach((issue) => displayIssue(issue));
+});
 
 // Load Issues
 async function loadIssues() {
@@ -198,8 +228,7 @@ function labelClass(label) {
     enhancement: "px-[2px] badge-success font-semibold  uppercase",
     documentation: "px-[2px] badge-info font-semibold uppercase",
     "help wanted": "px-[2px] badge-warning font-semibold uppercase",
-    "good first issue":
-      "px-[2px] text-[13px] badge-secondary font-semibold uppercase",
+    "good first issue": "px-[2px] text-[13px] badge-secondary  uppercase",
   };
   return classes[label] || "badge-neutral font-semibold uppercase";
 }

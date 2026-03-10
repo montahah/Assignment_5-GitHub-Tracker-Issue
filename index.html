@@ -20,20 +20,22 @@
   </head>
   <body>
     <section
-      class="w-[550px] mx-auto text-center shadow-lg p-5 mt-30 rounded-lg">
+      class="w-96 md:w-[550px] mx-auto text-center shadow-lg p-5 mt-30 rounded-lg">
       <div class="login-text-content">
         <img class="mx-auto" src="./assets/github-logo.png" alt="github logo" />
-        <h2 class="text-4xl font-semibold">GitHub Issues Tracker</h2>
-        <p class="text-xl font-normal text-gray-500">
+        <h2 class="max-sm:text-2xl md:text-4xl font-semibold">
+          GitHub Issues Tracker
+        </h2>
+        <p class="md:text-xl font-normal text-gray-500">
           Sign in to manage your issues
         </p>
       </div>
-      <fieldset class="fieldset rounded-box w-lg p-4 mx-auto">
+      <fieldset class="fieldset rounded-box md:w-lg p-4 mx-auto">
         <label class="label font-semibold text-lg text-black">Username</label>
         <input
           id="userName"
           type="email"
-          class="input w-full"
+          class="input md:w-full"
           placeholder="Enter Username" />
         <p class="text-purple-600 text-left">Default: admin</p>
 
@@ -41,11 +43,13 @@
         <input
           id="password"
           type="password"
-          class="input w-full"
+          class="input md:w-full"
           placeholder="Enter Password" />
         <p class="text-purple-600 text-left">Default: admin123</p>
 
-        <button id="signInBtn" class="btn btn-primary mt-4">Sign In</button>
+        <button id="signInBtn" class="btn btn-primary mt-4 max-sm:w-80">
+          Sign In
+        </button>
       </fieldset>
       <div class="credentials">
         <div class="flex justify-evenly items-center text-gray-300 py-5">
