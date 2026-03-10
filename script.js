@@ -8,6 +8,21 @@ const openButton = document.getElementById("openBtn");
 const closedButton = document.getElementById("closedBtn");
 const buttonContainer = document.getElementById("btnContainer");
 
+// Status
+const allStatus = document.getElementById("allStatus");
+const openStatus = document.getElementById("openStatus");
+const closedStatus = document.getElementById("closedStatus");
+
+// Modal Information
+const modalTitle = document.getElementById("modalTitle");
+const modalDescription = document.getElementById("modalDescription");
+const modalStatus = document.getElementById("modalStatus");
+const modalOpen = document.getElementById("modalOpened");
+const modalName = document.querySelectorAll(".modalName");
+const modalDate = document.getElementById("modalDate");
+const modalPriority = document.getElementById("modalPriority");
+const modalLabels = document.getElementById("modalLabels");
+
 // Modal
 const issueModal = document.getElementById("issue-details-modal");
 
@@ -20,14 +35,43 @@ async function issueModalOpen(issueId) {
   const data = await res.json();
   const issueDetails = data.data;
   console.log(issueDetails, "data");
+  modalTitle.textContent = issueDetails.title;
+  modalDescription.textContent = issueDetails.description;
+  modalName[0].textContent = issueDetails.assignee;
+  modalName[1].textContent = issueDetails.assignee;
+  modalDate.textContent = issueDetails.createdAt;
+  modalPriority.textContent = issueDetails.priority;
+  // modalLabels.textContent = issueDetails.labels;
+  // modalLabels.classList.add("badge", "badge-outline", "uppercase");
+  // issueDetails.labels.map((issue) => {
+  //   console.log(issue);
+  // });
+  modalLabels.innerHTML = issueDetails.labels
+    .map(
+      (label) => `
+    <div class="badge badge-outline uppercase ${label}">
+      <i class="fa-solid fa-sun"></i>
+      ${label}
+    </div>
+  `,
+    )
+    .join("");
+
+  // modalLabels.innerHTML = ''
+
+  if (issueDetails.status === "open") {
+    modalStatus.classList.add("btn-success");
+    modalStatus.textContent = "Opened";
+    modalOpen.textContent = "Opened";
+  } else {
+    modalStatus.classList.remove("btn-success");
+    modalStatus.classList.add("bg-purple-600");
+    modalStatus.textContent = "Closed";
+    modalOpen.textContent = "Closed";
+  }
 
   issueDetailsModal.showModal();
 }
-
-// Status
-const allStatus = document.getElementById("allStatus");
-const openStatus = document.getElementById("openStatus");
-const closedStatus = document.getElementById("closedStatus");
 
 // Load Issues
 async function loadIssues() {
@@ -43,20 +87,6 @@ async function loadIssues() {
   });
 }
 loadIssues();
-
-// Load Category
-// async function loadCategories() {
-//   const res = await fetch(allIssue);
-//   const data = await res.json();
-//   data.data.forEach((category) => {
-//     const categories = category.status;
-//     console.log(categories);
-//   });
-// }
-// loadCategories();
-// Category
-
-//Count Status
 
 function statusCount() {
   const total = allIssuesData.length;
@@ -85,7 +115,7 @@ function specificDisplayIssue(filter) {
 specificDisplayIssue();
 
 // Buttons
-// allButton.addEventListener("click", () => specificDisplayIssue(loadIssues()));
+
 allButton.addEventListener("click", function () {
   closedStatus.classList.remove("hidden");
   openStatus.classList.remove("hidden");
@@ -173,34 +203,3 @@ function labelClass(label) {
   };
   return classes[label] || "badge-neutral font-semibold uppercase";
 }
-
-const searchInput = document.querySelector("#search-input");
-
-searchInput.addEventListener("input", async function () {
-  const query = searchInput.value.trim();
-
-  if (query === "") {
-    specificDisplayIssue("all");
-    return;
-  }
-
-  const res = await fetch(
-    `https://phi-lab-server.vercel.app/api/v1/lab/issues?search=${query}`,
-  );
-  const data = await res.json();
-
-  issueContainer.innerHTML = "";
-  issueCount.textContent = data.total;
-
-  if (data.total === 0) {
-    issueContainer.innerHTML = `
-      <div class="flex flex-col items-center justify-center py-20 text-gray-400">
-        <i class="fa-solid fa-magnifying-glass text-4xl mb-3"></i>
-        <p class="text-lg font-medium">No issues found for "<span class="text-gray-600">${query}</span>"</p>
-      </div>
-    `;
-    return;
-  }
-
-  data.data.forEach((issue) => displayIssue(issue));
-});

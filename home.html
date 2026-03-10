@@ -114,17 +114,72 @@
         <span class="loading loading-bars loading-xl"></span>
       </div>
       <!-- Modal -->
-      <section class="container mx-auto hidden">
+      <section class="container mx-auto">
         <!-- Open the modal using ID.showModal() method -->
         <button class="btn" onclick="issueDetailsModal.showModal()">
           open modal
         </button>
-        <dialog id="issueDetailsModal" class="modal">
+        <!-- Product details modal -->
+        <dialog id="issueDetailsModal" class="modal p-5">
           <div class="modal-box">
+            <!-- Modal Header with Close Button -->
+            <div class="flex justify-between items-start mb-4">
+              <h3 class="font-bold text-2xl text-gray-700" id="modalTitle">
+                Issue Details
+              </h3>
+              <button
+                class="btn btn-sm btn-circle btn-ghost"
+                onclick="document.getElementById('issueDetailsModal').close()">
+                ✕
+              </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div class="gap-6">
+              <!-- issue Details -->
+              <div class="space-y-5">
+                <div class="flex gap-3 items-center">
+                  <div
+                    id="modalStatus"
+                    class="badge badge-success text-white bg-green-600 rounded-full">
+                    Opened
+                  </div>
+                  <p class="text-gray-500 flex gap-1 items-center">
+                    .<span id="modalOpened">Opened</span>by<span
+                      class="modalName"
+                      >Fahim Ahmed</span
+                    >.
+                    <span id="modalDate">22/02/2026</span>
+                  </p>
+                </div>
+                <div id="modalLabels" class="flex gap-3 items-center"></div>
+                <p class="text-sm text-gray-500 mb-4">
+                  <span id="modalDescription"
+                    >The navigation menu doesn't collapse properly on mobile
+                    devices. Need to fix the responsive behavior.</span
+                  >
+                </p>
+                <div
+                  class="flex justify-between mb-6 bg-gray-200 p-5 rounded-xl pr-30">
+                  <div>
+                    <p>Assignee:</p>
+                    <p class="font-bold modalName">Fahim Ahmed</p>
+                  </div>
+                  <div>
+                    <p class="uppercase">Priority:</p>
+                    <div
+                      id="modalPriority"
+                      class="badge text-white bg-green-600 rounded-full font-medium uppercase">
+                      Opened
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div class="modal-action">
               <form method="dialog">
-                <!-- if there is a button in form, it will close the modal -->
-                <button class="btn">Close</button>
+                <button class="btn btn-primary">Close</button>
               </form>
             </div>
           </div>
